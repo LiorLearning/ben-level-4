@@ -27,6 +27,7 @@ const clock = new THREE.Clock();
 const FIXED_TIME_STEP = 1/60; // 60 physics updates per second
 let accumulator = 0;
 let gameInitialized = false;
+let gamePaused = false;
 
 async function init() {
     // Initialize audio manager
@@ -187,8 +188,8 @@ function resetPlayer() {
 }
 
 function updateGame(deltaTime) {
-    // Skip game updates if math quiz is active
-    if (mathQuiz.isActive) {
+    // Skip game updates if math quiz is active or game is paused
+    if (mathQuiz.isActive || gamePaused) {
         return;
     }
 
@@ -287,20 +288,10 @@ function updateGame(deltaTime) {
             new THREE.Vector3(levelEnd.arch.width, levelEnd.arch.height, 1)
         );
         
-        // Debug log for collision detection
-        console.log('Player position:', player.mesh.position);
-        console.log('Arch position:', levelEnd.arch.position);
-        console.log('Player box:', playerBox);
-        console.log('Arch box:', archBox);
-        
         if (playerBox.intersectsBox(archBox)) {
             // Level complete!
-            console.log('Level Complete!');
-            // You can add a victory message or transition here
-            alert('Congratulations! Level Complete!');
-            // Reset the level
-            resetLevel();
-            return; // Exit the update loop after reset
+            showVillainEndScreen();
+            return; // Exit the update loop after end screen
         }
     }
 
@@ -351,12 +342,81 @@ function resetLevel() {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
-    const deltaTime = clock.getDelta();
-    
-    updateGame(deltaTime);
+    if (!gamePaused) {
+        requestAnimationFrame(animate);
+        const deltaTime = clock.getDelta();
+        updateGame(deltaTime);
+        renderer.render(scene, camera);
+    }
+}
 
-    renderer.render(scene, camera);
+function showVillainEndScreen() {
+    gamePaused = true;
+    // Pause the game loop by not calling animate again
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.92);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+    `;
+    // Villain image
+    const img = document.createElement('img');
+    img.src = 'assets/villain.png';
+    img.alt = 'Villain';
+    img.style.cssText = `
+        width: 220px;
+        height: auto;
+        margin-bottom: 32px;
+        filter: drop-shadow(0 0 24px #000);
+    `;
+    overlay.appendChild(img);
+    // Message
+    const msg = document.createElement('div');
+    msg.textContent = 'I will be your doom, see you in the next level.. HAHAHA';
+    msg.style.cssText = `
+        color: #fff;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 8px #000;
+        max-width: 90vw;
+    `;
+    overlay.appendChild(msg);
+    // Play again button
+    const btn = document.createElement('button');
+    btn.textContent = 'Play Again';
+    btn.style.cssText = `
+        font-size: 1.5rem;
+        padding: 16px 48px;
+        border-radius: 12px;
+        border: none;
+        background: #4CAF50;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 16px #0008;
+        transition: background 0.2s;
+    `;
+    btn.onmouseover = () => btn.style.background = '#388e3c';
+    btn.onmouseout = () => btn.style.background = '#4CAF50';
+    btn.onclick = () => {
+        document.body.removeChild(overlay);
+        gamePaused = false;
+        resetLevel();
+        animate();
+    };
+    overlay.appendChild(btn);
+    document.body.appendChild(overlay);
 }
 
 init();

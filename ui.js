@@ -81,6 +81,22 @@ export class UI {
         // Add container to document
         document.body.appendChild(this.container);
 
+        // Add villain image to top right
+        this.villainImg = document.createElement('img');
+        this.villainImg.src = 'assets/villain.png';
+        this.villainImg.alt = 'Villain';
+        this.villainImg.style.cssText = `
+            position: fixed;
+            top: 64px;
+            right: 64px;
+            width: 192px;
+            height: auto;
+            z-index: 1100;
+            pointer-events: none;
+            user-select: none;
+        `;
+        document.body.appendChild(this.villainImg);
+
         // Initialize values
         this.updateHealth(5);
         this.updateKeys(0);
