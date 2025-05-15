@@ -1,0 +1,187 @@
+export class UI {
+    constructor() {
+        this.createUI();
+    }
+
+    createUI() {
+        // Create container for UI elements
+        this.container = document.createElement('div');
+        this.container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 20px;
+            font-family: Arial, sans-serif;
+        `;
+
+        // Create health panel
+        this.healthPanel = document.createElement('div');
+        this.healthPanel.style.cssText = `
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+
+        // Create health icon
+        const healthIcon = document.createElement('img');
+        healthIcon.src = 'assets/heart.svg';
+        healthIcon.style.cssText = `
+            width: 24px;
+            height: 24px;
+        `;
+        this.healthPanel.appendChild(healthIcon);
+
+        // Create health text
+        this.healthText = document.createElement('span');
+        this.healthText.style.cssText = `
+            font-size: 18px;
+            font-weight: bold;
+        `;
+        this.healthPanel.appendChild(this.healthText);
+
+        // Create keys panel
+        this.keysPanel = document.createElement('div');
+        this.keysPanel.style.cssText = `
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+
+        // Create key icon
+        const keyIcon = document.createElement('img');
+        keyIcon.src = 'assets/key.png';
+        keyIcon.style.cssText = `
+            width: 24px;
+            height: 24px;
+        `;
+        this.keysPanel.appendChild(keyIcon);
+
+        // Create keys text
+        this.keysText = document.createElement('span');
+        this.keysText.style.cssText = `
+            font-size: 18px;
+            font-weight: bold;
+        `;
+        this.keysPanel.appendChild(this.keysText);
+
+        // Add panels to container
+        this.container.appendChild(this.healthPanel);
+        this.container.appendChild(this.keysPanel);
+
+        // Add container to document
+        document.body.appendChild(this.container);
+
+        // Initialize values
+        this.updateHealth(3);
+        this.updateKeys(0);
+
+        // Create loading screen
+        this.createLoadingScreen();
+    }
+
+    createLoadingScreen() {
+        this.loadingScreen = document.createElement('div');
+        this.loadingScreen.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            color: white;
+            font-family: Arial, sans-serif;
+        `;
+
+        const title = document.createElement('h1');
+        title.textContent = 'Loading Game...';
+        title.style.cssText = `
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #fff;
+        `;
+
+        const progressContainer = document.createElement('div');
+        progressContainer.style.cssText = `
+            width: 300px;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        `;
+
+        this.progressBar = document.createElement('div');
+        this.progressBar.style.cssText = `
+            width: 0%;
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+        `;
+
+        this.progressText = document.createElement('div');
+        this.progressText.style.cssText = `
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 20px;
+        `;
+
+        this.startMessage = document.createElement('div');
+        this.startMessage.style.cssText = `
+            font-size: 24px;
+            color: #4CAF50;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        `;
+        this.startMessage.textContent = 'Click anywhere to start';
+
+        progressContainer.appendChild(this.progressBar);
+        this.loadingScreen.appendChild(title);
+        this.loadingScreen.appendChild(progressContainer);
+        this.loadingScreen.appendChild(this.progressText);
+        this.loadingScreen.appendChild(this.startMessage);
+        document.body.appendChild(this.loadingScreen);
+    }
+
+    showStartMessage() {
+        this.startMessage.style.opacity = '1';
+    }
+
+    updateLoadingProgress(progress, text) {
+        this.progressBar.style.width = `${progress}%`;
+        this.progressText.textContent = text;
+        
+        // When loading is complete, show the start message
+        if (progress >= 100) {
+            this.showStartMessage();
+        }
+    }
+
+    hideLoadingScreen() {
+        this.loadingScreen.style.display = 'none';
+    }
+
+    updateHealth(health) {
+        this.healthText.textContent = health;
+    }
+
+    updateKeys(keys) {
+        this.keysText.textContent = `${keys}/5`;
+    }
+} 
