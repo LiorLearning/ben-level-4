@@ -8,11 +8,11 @@ export class UI {
         this.container = document.createElement('div');
         this.container.style.cssText = `
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 32px;
+            left: 32px;
             z-index: 1000;
             display: flex;
-            gap: 20px;
+            gap: 40px;
             font-family: Arial, sans-serif;
         `;
 
@@ -20,27 +20,27 @@ export class UI {
         this.healthPanel = document.createElement('div');
         this.healthPanel.style.cssText = `
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 16px 32px;
+            border-radius: 14px;
             color: white;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
         `;
 
         // Create health icon
         const healthIcon = document.createElement('img');
         healthIcon.src = 'assets/heart.svg';
         healthIcon.style.cssText = `
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
         `;
         this.healthPanel.appendChild(healthIcon);
 
         // Create health text
         this.healthText = document.createElement('span');
         this.healthText.style.cssText = `
-            font-size: 18px;
+            font-size: 32px;
             font-weight: bold;
         `;
         this.healthPanel.appendChild(this.healthText);
@@ -49,27 +49,27 @@ export class UI {
         this.keysPanel = document.createElement('div');
         this.keysPanel.style.cssText = `
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 16px 32px;
+            border-radius: 14px;
             color: white;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
         `;
 
         // Create key icon
         const keyIcon = document.createElement('img');
         keyIcon.src = 'assets/key.png';
         keyIcon.style.cssText = `
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
         `;
         this.keysPanel.appendChild(keyIcon);
 
         // Create keys text
         this.keysText = document.createElement('span');
         this.keysText.style.cssText = `
-            font-size: 18px;
+            font-size: 32px;
             font-weight: bold;
         `;
         this.keysPanel.appendChild(this.keysText);
@@ -82,7 +82,7 @@ export class UI {
         document.body.appendChild(this.container);
 
         // Initialize values
-        this.updateHealth(3);
+        this.updateHealth(5);
         this.updateKeys(0);
 
         // Create loading screen
@@ -110,8 +110,8 @@ export class UI {
         const title = document.createElement('h1');
         title.textContent = 'Loading Game...';
         title.style.cssText = `
-            font-size: 32px;
-            margin-bottom: 20px;
+            font-size: 48px;
+            margin-bottom: 28px;
             color: #fff;
         `;
 
@@ -135,14 +135,14 @@ export class UI {
 
         this.progressText = document.createElement('div');
         this.progressText.style.cssText = `
-            font-size: 16px;
+            font-size: 24px;
             color: #fff;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
         `;
 
         this.startMessage = document.createElement('div');
         this.startMessage.style.cssText = `
-            font-size: 24px;
+            font-size: 32px;
             color: #4CAF50;
             font-weight: bold;
             text-align: center;

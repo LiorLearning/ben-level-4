@@ -14,7 +14,7 @@ let scene, camera, renderer, player, inputManager, audioManager;
 let platforms = [], collectibles = [], lavaBlocks = [], obstacles = [], shooters = [], treasureBoxes = [];
 let score = 0;
 let keysCollected = 0;
-let playerLives = 3;
+let playerLives = 5;
 let background;
 let levelEnd;
 let isPlayerRespawning = false; // Add flag to track respawn state
@@ -313,7 +313,7 @@ function updateGame(deltaTime) {
 function resetLevel() {
     // Reset player position and lives
     player.reset();
-    playerLives = 3;
+    playerLives = 5;
     ui.updateHealth(playerLives);
     
     // Reset collectibles
